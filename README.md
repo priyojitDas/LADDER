@@ -118,108 +118,108 @@ The human hg19 reference genome training data: DNA sequence, gene density, LINE1
 
 1) First, use _LADDER/predict.py_ to predict base-level probabilities for lamina association for a specific chromosome broken into overlapping 512-kb windows with a step size of 200-kb. The command is as follow:
 
-_python LADDER/predict.py --chr chr11 --chrbins 676 --species human --assembly hg19 --model ./model_human/models/epoch\\=4-step\\=85.ckpt --genedensity ./root_human/hg19/genomic_features/genedensity.bw --linedensity ./root_human/hg19/genomic_features/linedensity.bw --sinedensity ./root_human/hg19/genomic_features/sinedensity.bw --seq ./root_human/hg19/dna_sequence --out ./prediction_human_
+    _python LADDER/predict.py --chr chr11 --chrbins 676 --species human --assembly hg19 --model ./model_human/models/epoch\\=4-step\\=85.ckpt --genedensity ./root_human/hg19/genomic_features/genedensity.bw --linedensity ./root_human/hg19/genomic_features/linedensity.bw --sinedensity ./root_human/hg19/genomic_features/sinedensity.bw --seq ./root_human/hg19/dna_sequence --out ./prediction_human_
 
-\# --chr: chromosome to predict
+    \# --chr: chromosome to predict
 
-\# --chrbins: # of overlapping chromosomal windows (e.g., ⌈chromosome length / 200000⌉)
+    \# --chrbins: # of overlapping chromosomal windows (e.g., ⌈chromosome length / 200000⌉)
 
-\# --species: species
+    \# --species: species
 
-\# --assembly: genome assembly version
+    \# --assembly: genome assembly version
 
-\# --model: path of the saved model
+    \# --model: path of the saved model
 
-\# --genedensity: path of the gene density file
+    \# --genedensity: path of the gene density file
 
-\# --linedensity: path of the LINE1 density file
+    \# --linedensity: path of the LINE1 density file
 
-\# --sinedensity: path of the SINE density file
+    \# --sinedensity: path of the SINE density file
 
-\# --seq: path of the sequence fasta file
+    \# --seq: path of the sequence fasta file
 
-\# --out: path of the model generated prediction files
+    \# --out: path of the model generated prediction files
 
 2) Then, use _patchWindows.py_ to merge 512-kb sized predictions at the corresponding chromosomal locations to obtain chromosome-wide base-level probabilities.
 
-_python patchWindows.py prediction_output species assembly chr_
+    _python patchWindows.py prediction_output species assembly chr_
 
-\# prediction_output: base path of the directory where model generated prediction files are present (e.g., _./prediction_human_)
+    \# prediction_output: base path of the directory where model generated prediction files are present (e.g., _./prediction_human_)
 
-\# species: species (e.g., human)
+    \# species: species (e.g., human)
 
-\# assembly: genome assembly version (e.g., hg19)
+    \# assembly: genome assembly version (e.g., hg19)
 
-\# chr: chromosome to merge (e.g., chr11)
+    \# chr: chromosome to merge (e.g., chr11)
 
-The output file from step 2) can be found inside the prediction_output directory (for this case, _./prediction_human/npy/human/hg19_)
+    The output file from step 2) can be found inside the prediction_output directory (for this case, _./prediction_human/npy/human/hg19_)
 
 3) Finally, use _writeBED.py_ to convert chromosome-wide probabilities to binary lamina associated domain signal.
 
-_python writeBED.py prediction_output species assembly chr_
+    _python writeBED.py prediction_output species assembly chr_
 
-\# prediction_output: base path of the directory where chromosome-wide base-level probabilities file is present (e.g., _./prediction_human_)
+    \# prediction_output: base path of the directory where chromosome-wide base-level probabilities file is present (e.g., _./prediction_human_)
 
-\# species: species (e.g., human)
+    \# species: species (e.g., human)
 
-\# assembly: genome assembly version (e.g., hg19)
+    \# assembly: genome assembly version (e.g., hg19)
 
-\# chr: chromosome to merge (e.g., chr11)
+    \# chr: chromosome to merge (e.g., chr11)
 
-The output files from step 3) can be found inside the _./bedfiles_ directory.
+    The output files from step 3) can be found inside the _./bedfiles_ directory.
 
 **_In-silico_ deletion**
 
 1) Use _LADDER/predictdel.py_ to perform _in silico_ genetic deletion for a specific locus using LADDER model. The command is as follow:
 
-_python LADDER/predictdel.py --chr chr1 --species human --assembly hg19 --model ./model_human/models/epoch\\=4-step\\=85.ckpt --genedensity ./root_human/hg19/genomic_features/genedensity.bw --linedensity ./root_human/hg19/genomic_features/linedensity.bw --sinedensity ./root_human/hg19/genomic_features/sinedensity.bw --seq ./root_human/hg19/dna_sequence --location hg19.CPDEL.pos.n10.bed --out ./prediction_human_del_
+    _python LADDER/predictdel.py --chr chr1 --species human --assembly hg19 --model ./model_human/models/epoch\\=4-step\\=85.ckpt --genedensity ./root_human/hg19/genomic_features/genedensity.bw --linedensity ./root_human/hg19/genomic_features/linedensity.bw --sinedensity ./root_human/hg19/genomic_features/sinedensity.bw --seq ./root_human/hg19/dna_sequence --location hg19.CPDEL.pos.n10.bed --out ./prediction_human_del_
 
-\# --chr: chromosome to predict
+    \# --chr: chromosome to predict
 
-\# --species: species
+    \# --species: species
 
-\# --assembly: genome assembly version
+    \# --assembly: genome assembly version
 
-\# --model: path of the saved model
+    \# --model: path of the saved model
 
-\# --genedensity: path of the gene density file
+    \# --genedensity: path of the gene density file
 
-\# --linedensity: path of the LINE1 density file
+    \# --linedensity: path of the LINE1 density file
 
-\# --sinedensity: path of the SINE density file
+    \# --sinedensity: path of the SINE density file
 
-\# --seq: path of the sequence fasta file
+    \# --seq: path of the sequence fasta file
 
-\# --location: path to the bed file containing the deletion sites
+    \# --location: path to the bed file containing the deletion sites
 
-\# --out: path of the model generated prediction files
+    \# --out: path of the model generated prediction files
 
 2) Then, to check its effect in upstream and downstream region, use _patchWindows_del.py_, which produces base-level lamina association probabilities around the deletion locus.
 
-_python patchWindows_del.py prediction_output species assembly chr location_
+    _python patchWindows_del.py prediction_output species assembly chr location_
 
-\# prediction_output: base path of the directory where model generated prediction files are present (e.g., _./prediction_human_del_)
+    \# prediction_output: base path of the directory where model generated prediction files are present (e.g., _./prediction_human_del_)
 
-\# species: species (e.g., human)
+    \# species: species (e.g., human)
 
-\# assembly: genome assembly version (e.g., hg19)
+    \# assembly: genome assembly version (e.g., hg19)
 
-\# chr: chromosome (e.g., chr11)
+    \# chr: chromosome (e.g., chr11)
 
-\# location: path to the bed file containing the deletion sites
+    \# location: path to the bed file containing the deletion sites
 
-The output file from step 2) can be found inside the _./delfiles_ directory.
+     The output file from step 2) can be found inside the _./delfiles_ directory.
 
 3) Finally, use _writedelBED.py_ to convert base-level lamina association probabilities to binary lamina associated domain signal.
 
-_python writedelBED.py prediction_output species assembly chr_
+    _python writedelBED.py prediction_output species assembly chr_
 
-\# prediction_output: base location of the directory where chromosome-wide base-level probabilities file is present (e.g., _./prediction_human_del_)
+    \# prediction_output: base location of the directory where chromosome-wide base-level probabilities file is present (e.g., _./prediction_human_del_)
 
-\# species: species (e.g., human)
+    \# species: species (e.g., human)
 
-\# assembly: genome assembly version (e.g., hg19)
+    \# assembly: genome assembly version (e.g., hg19)
 
-\# chr: chromosome (e.g., chr11)
+    \# chr: chromosome (e.g., chr11)
 
-The output file from step 3) can be found inside the _./delfiles_ directory.
+    The output file from step 3) can be found inside the _./delfiles_ directory.
