@@ -1,4 +1,4 @@
-LADDER is a multimodal deep learning tool that predicts chromatin lamina association. It uses the DNA sequence with different genomic properties, including gene density, LINE1 density, and SINE density as input. The predictions made by LADDER are not cell-type specific in nature. LADDER also has the ability to predict the effect of different genomic structural rearrangements, such as deletions, on the lamina tethering of the surrounding region by performing _in silico_ genetic perturbations**.**
+LADDER is a multimodal deep learning tool that predicts chromatin lamina association. It uses the DNA sequence with different genomic properties, including gene density, LINE1 density, and SINE density as input. The predictions made by LADDER are not cell-type specific in nature. LADDER also has the ability to predict the effect of different genomic structural rearrangements, such as deletions, on the lamina tethering of the surrounding region by performing _in silico_ genetic perturbations.
 
 **Dependencies and Installation**
 
@@ -90,7 +90,7 @@ root_human/
 
 \`-- lad.bw
 
-Please make sure the data directory is structured as above with the assembly name 🡪 centrotelo.bed (this is a bed file of any regions you wish to exclude ex. telomeres and centromeres), dna_sequence, genomic_features and lad_features directories. The genomic_features contains the gene density, LINE1 density and SINE density bigwigs (files should have these exact same names!) specific to the genome. And finally, the lad_features directory has the cell-type non-specific lamina associated domain file for the genome.
+Please make sure the data directory is structured as above with the assembly name 🡪 centrotelo.bed (this is a bed file of any regions you wish to exclude, such as telomeres and centromeres), dna_sequence, genomic_features and lad_features directories. The genomic_features contains the gene density, LINE1 density and SINE density bigwigs (files should have these exact same names!) specific to the genome. And finally, the lad_features directory has the cell-type non-specific lamina associated domain file for the genome.
 
 **Training**
 
